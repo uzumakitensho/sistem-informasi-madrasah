@@ -11,7 +11,7 @@ class StoreSchoolYearRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,7 @@ class StoreSchoolYearRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'year_start' => 'required|integer|min:2000|max:5000|unique:school_years,year_start',
         ];
     }
 }

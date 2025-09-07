@@ -1,6 +1,6 @@
 @extends('layouts.app')
  
-@section('title', 'Tahun Ajaran')
+@section('title', 'School Years')
  
 @section('content')
     <!-- Content Row -->
@@ -11,25 +11,17 @@
             <!-- Approach -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Create Tahun Ajaran</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Create School Years</h6>
                 </div>
                 <div class="card-body">
-                    <table class="table table-striped">
-                        <thead class="table-primary">
-                            <tr>
-                                <th>No</th>
-                                <th>Tahun Pelajaran</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>aaaaa</td>
-                                <td>aaaaa</td>
-                                <td>aaaaa</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <form method="post" action="{{ route('school-years.store') }}">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="yearStartInput" class="form-label">Year Start</label>
+                            <input type="number" class="form-control" name="year_start" id="yearStartInput" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
                 </div>
             </div>
 

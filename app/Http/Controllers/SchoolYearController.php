@@ -15,8 +15,11 @@ class SchoolYearController extends Controller
      */
     public function index(Request $request)
     {
+        $schoolYears = SchoolYear::orderBy('year_start', 'ASC')->get();
         sidebarMarking($this->viewPath, 'index');
-        return view($this->viewPath.'.index');
+        return view($this->viewPath.'.index', [
+            'schoolYears' => $schoolYears,
+        ]);
     }
 
     /**
@@ -33,7 +36,13 @@ class SchoolYearController extends Controller
      */
     public function store(StoreSchoolYearRequest $request)
     {
-        //
+        $yearStart = intval($request->year_start);
+        $newSchoolYear = SchoolYear::create([
+            'year_start' => $yearStart,
+            'year_end' => $yearStart+1,
+        ]);
+
+        return redirect()->route('school-years.create')->with('status', 'School Year created!');
     }
 
     /**
