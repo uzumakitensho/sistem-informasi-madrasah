@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Semester;
 use App\Models\SchoolYear;
 use App\Http\Requests\StoreSchoolYearRequest;
 use App\Http\Requests\UpdateSchoolYearRequest;
 use Illuminate\Http\Request;
+use DB;
 
 class SchoolYearController extends Controller
 {
@@ -28,13 +30,35 @@ class SchoolYearController extends Controller
 
     public function store(StoreSchoolYearRequest $request)
     {
-        $yearStart = intval($request->year_start);
-        $newSchoolYear = SchoolYear::create([
-            'year_start' => $yearStart,
-            'year_end' => $yearStart+1,
-        ]);
+        try {
+            $yearStart = intval($request->year_start);
 
-        return redirect()->route('school-years.create')->with('success', 'School Year created!');
+            DB::beginTransaction();
+
+            $newSchoolYear = SchoolYear::create([
+                'year_start' => $yearStart,
+                'year_end' => $yearStart+1,
+            ]);
+            if(!$newSchoolYear) {
+                throw new \Exception('Failed to create data!');
+            }
+            $idSchoolYear = $newSchoolYear->id;
+
+            $semesters = ['Semester Gasal', 'Semester Genap'];
+            foreach ($semesters as $semester) {
+                $newSemester = Semester::create([
+                    'name' => $semester,
+                    'school_year_id' => $idSchoolYear,
+                ]);
+            }
+
+            DB::commit();
+
+            return redirect()->route('school-years.create')->with('success', 'School Year created!');
+        } catch(\Exception $err) {
+            DB::rollBack();
+            return redirect()->back()->withErrors([$err->getMessage()]);
+        }
     }
 
     public function show(SchoolYear $schoolYear)
@@ -65,6 +89,7 @@ class SchoolYearController extends Controller
     public function destroy(SchoolYear $schoolYear)
     {
         try {
+            $schoolYear->semesters()->delete();
             $schoolYear->delete();
 
             return redirect()->route('school-years.index')->with('success', 'School Year deleted!');

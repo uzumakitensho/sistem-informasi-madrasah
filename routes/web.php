@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SchoolYearController;
+use App\Http\Controllers\SemesterController;
 
 Route::get('/', function () {
     return view('welcome');

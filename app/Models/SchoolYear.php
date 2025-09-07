@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class SchoolYear extends Model
 {
@@ -13,4 +14,9 @@ class SchoolYear extends Model
         'year_start',
         'year_end',
     ];
+
+    public function semesters(): HasMany
+    {
+        return $this->hasMany(Semester::class);
+    }
 }
