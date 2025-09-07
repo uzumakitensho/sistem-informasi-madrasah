@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->integer('year_start');
             $table->integer('year_end');
-            $table->boolean('is_active');
             $table->timestamps();
         });
     }

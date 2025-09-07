@@ -5,15 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\SchoolYear;
 use App\Http\Requests\StoreSchoolYearRequest;
 use App\Http\Requests\UpdateSchoolYearRequest;
+use Illuminate\Http\Request;
 
 class SchoolYearController extends Controller
 {
+    private $viewPath = 'school-years';
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        dd('aaa');
+        sidebarMarking($this->viewPath, 'index');
+        return view($this->viewPath.'.index');
     }
 
     /**
@@ -21,7 +24,8 @@ class SchoolYearController extends Controller
      */
     public function create()
     {
-        //
+        sidebarMarking($this->viewPath, 'create');
+        return view($this->viewPath.'.create');
     }
 
     /**
