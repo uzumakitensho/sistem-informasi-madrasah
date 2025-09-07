@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateSchoolYearRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class UpdateSchoolYearRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +23,13 @@ class UpdateSchoolYearRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'year_start' => [
+                'required',
+                'integer',
+                'min:2000',
+                'max:5000',
+                Rule::unique('school_years', 'year_start')->ignore($this->route('school_year')->id),
+            ],
         ];
     }
 }

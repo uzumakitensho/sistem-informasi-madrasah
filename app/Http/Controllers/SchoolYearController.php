@@ -10,9 +10,7 @@ use Illuminate\Http\Request;
 class SchoolYearController extends Controller
 {
     private $viewPath = 'school-years';
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index(Request $request)
     {
         $schoolYears = SchoolYear::orderBy('year_start', 'ASC')->get();
@@ -22,18 +20,12 @@ class SchoolYearController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         sidebarMarking($this->viewPath, 'create');
         return view($this->viewPath.'.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreSchoolYearRequest $request)
     {
         $yearStart = intval($request->year_start);
@@ -42,38 +34,42 @@ class SchoolYearController extends Controller
             'year_end' => $yearStart+1,
         ]);
 
-        return redirect()->route('school-years.create')->with('status', 'School Year created!');
+        return redirect()->route('school-years.create')->with('success', 'School Year created!');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(SchoolYear $schoolYear)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(SchoolYear $schoolYear)
     {
-        //
+        sidebarMarking($this->viewPath, 'index');
+        return view($this->viewPath.'.edit', [
+            'schoolYear' => $schoolYear,
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateSchoolYearRequest $request, SchoolYear $schoolYear)
     {
-        //
+        $yearStart = intval($request->year_start);
+        if($yearStart != $schoolYear->year_start) {
+            $schoolYear->year_start = $yearStart;
+            $schoolYear->year_end = $yearStart+1;
+            $schoolYear->save();
+        }
+
+        return redirect()->route('school-years.edit', ['school_year' => $schoolYear])->with('success', 'School Year updated!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(SchoolYear $schoolYear)
     {
-        //
+        try {
+            $schoolYear->delete();
+
+            return redirect()->route('school-years.index')->with('success', 'School Year deleted!');
+        } catch(\Exception $err) {
+            return redirect()->back()->withErrors([$err->getMessage()]);
+        }
     }
 }
