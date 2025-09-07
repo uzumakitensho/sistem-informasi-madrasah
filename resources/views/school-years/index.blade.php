@@ -34,7 +34,13 @@
                                             @if(boolval($semester->is_active))
                                             <li style="padding-top: 3px; padding-bottom: 3px;"><strong style="color: green;">{{ strtoupper($semester->name) }}</strong></li>
                                             @else
-                                            <li style="padding-top: 3px; padding-bottom: 3px;">{{ $semester->name }} <button class="btn btn-sm btn-outline-warning">Activate</button></li>
+                                            <li style="padding-top: 3px; padding-bottom: 3px;">
+                                                {{ $semester->name }} 
+                                                <form method="post" action="{{ route('semesters.activate', ['semester' => $semester]) }}" onsubmit="return confirm('Are you sure?')">
+                                                    @csrf
+                                                    <button class="btn btn-sm btn-outline-warning" type="submit">Activate</button>
+                                                </form>
+                                            </li>
                                             @endif
                                         @endforeach
                                     </ul>

@@ -14,4 +14,11 @@ class Semester extends Model
         'school_year_id',
         'is_active',
     ];
+
+    public function activate()
+    {
+        Semester::whereNotNull('id')->update(['is_active' => false]);
+        $this->is_active = true;
+        $this->save();
+    }
 }

@@ -21,4 +21,8 @@ Route::prefix('admin')->group(function () {
         Route::post('/{school_year}', 'update')->name('school-years.update');
         Route::post('/{school_year}/delete', 'destroy')->name('school-years.destroy');
     });
+
+    Route::prefix('semesters')->controller(SemesterController::class)->group(function () {
+        Route::post('/{semester}/activate', 'activate')->name('semesters.activate');
+    });
 });

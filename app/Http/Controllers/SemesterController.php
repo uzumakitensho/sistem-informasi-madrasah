@@ -63,4 +63,15 @@ class SemesterController extends Controller
     {
         //
     }
+
+    public function activate(Semester $semester)
+    {
+        try {
+            $semester->activate();
+
+            return redirect()->route('school-years.index')->with('success', 'Semester activated!');
+        } catch(\Exception $err) {
+            return redirect()->back()->withErrors([$err->getMessage()]);
+        }
+    }
 }
