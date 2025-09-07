@@ -19,6 +19,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Tahun Pelajaran</th>
+                                <th>Semester</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -27,6 +28,17 @@
                             <tr>
                                 <td>{{ $key+1 }}</td>
                                 <td>{{ $schoolYear->year_start .' - '. $schoolYear->year_end }}</td>
+                                <td>
+                                    <ul>
+                                        @foreach($schoolYear->semesters()->get() as $semester)
+                                            @if(boolval($semester->is_active))
+                                            <li style="padding-top: 3px; padding-bottom: 3px;"><strong style="color: green;">{{ strtoupper($semester->name) }}</strong></li>
+                                            @else
+                                            <li style="padding-top: 3px; padding-bottom: 3px;">{{ $semester->name }} <button class="btn btn-sm btn-outline-warning">Activate</button></li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                </td>
                                 <td>
                                     <div class="dropdown mb-4">
                                         <button class="btn btn-primary dropdown-toggle" type="button"
