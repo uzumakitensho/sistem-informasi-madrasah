@@ -10,8 +10,8 @@ $mainMenu = session('mainMenu') == 'school-years' ? true : false;
     </a>
     <div id="collapseTwo" class="collapse {{ $mainMenu ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item {{ $mainMenu && session('subMenu') == 'index' ? 'active' : '' }}" href="{{ route('school-years.index') }}">List</a>
-            <a class="collapse-item {{ $mainMenu && session('subMenu') == 'create' ? 'active' : '' }}" href="{{ route('school-years.create') }}">Create</a>
+            <a class="collapse-item {{ $mainMenu && session('subMenu') == 'index' ? 'active' : '' }}" href="{{ route('school-years.index') }}">Daftar Data</a>
+            <a class="collapse-item {{ $mainMenu && session('subMenu') == 'create' ? 'active' : '' }}" href="{{ route('school-years.create') }}">Buat Data</a>
         </div>
     </div>
 </li>
