@@ -8,12 +8,17 @@ use Illuminate\Http\Request;
 
 class GuruController extends Controller
 {
+    private $viewPath = 'guru';
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('guru::index');
+        $guruList = Guru::orderBy('nama_guru', 'ASC')->get();
+        sidebarMarking($this->viewPath, 'index');
+        return view('guru::index', [
+            'guruList' => $guruList,
+        ]);
     }
 
     /**
