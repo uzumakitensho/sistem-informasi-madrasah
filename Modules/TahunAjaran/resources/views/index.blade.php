@@ -54,8 +54,8 @@
                                         </button>
                                         <div class="dropdown-menu animated--fade-in"
                                             aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="{{ route('school-years.edit', ['school_year' => $schoolYear]) }}">Edit</a>
-                                            <form method="post" action="{{ route('school-years.destroy', ['school_year' => $schoolYear]) }}" onsubmit="return confirm('Are you sure?')">
+                                            <a class="dropdown-item" href="{{ route('tahun-ajaran.edit', ['school_year' => $schoolYear]) }}">Edit</a>
+                                            <form method="post" action="{{ route('tahun-ajaran.destroy', ['school_year' => $schoolYear]) }}" onsubmit="return confirm('Are you sure?')">
                                                 @csrf
                                                 <button class="dropdown-item" type="submit">Delete</button>
                                             </form>
