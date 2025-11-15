@@ -30,8 +30,7 @@ class TahunAjaranController extends Controller
      */
     public function create()
     {
-        sidebarMarking($this->viewPath, 'create');
-        return view('tahunajaran::create');
+        return redirect()->route('tahun-ajaran.index');
     }
 
     /**
@@ -83,8 +82,7 @@ class TahunAjaranController extends Controller
      */
     public function edit(SchoolYear $schoolYear)
     {
-        sidebarMarking($this->viewPath, 'index');
-        return view('tahunajaran::edit');
+        return redirect()->route('tahun-ajaran.index');
     }
 
     /**

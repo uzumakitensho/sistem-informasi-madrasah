@@ -11,6 +11,33 @@
             <!-- Approach -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Tambah Tahun Ajaran</h6>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{{ route('tahun-ajaran.store') }}">
+                        @csrf
+                        <div class="col-lg-4 mb-3">
+                            <label for="tahunMulaiInput" class="form-label">Tahun Mulai</label>
+                            <input type="number" class="form-control" name="tahun_mulai" id="tahunMulaiInput" min="1990" max="5000" required>
+                        </div>
+                        <div class="col-lg-4 mb-3">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Content Row -->
+    <div class="row">
+
+        <!-- Content Column -->
+        <div class="col-lg-12 mb-4">
+            <!-- Approach -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Daftar Tahun Ajaran</h6>
                 </div>
                 <div class="card-body">

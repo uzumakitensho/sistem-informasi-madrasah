@@ -12,7 +12,7 @@ class StoreTahunAjaranRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tahun_mulai' => 'required|integer|min:2000|max:5000|unique:school_years,year_start',
+            'tahun_mulai' => 'required|integer|min:1990|max:5000',
         ];
     }
 
