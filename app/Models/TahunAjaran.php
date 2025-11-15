@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class SchoolYear extends Model
+class TahunAjaran extends Model
 {
     protected $connection = 'mysql';
-    protected $table = 'school_years';
+    protected $table = 'tahun_ajaran';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'year_start',
-        'year_end',
+        'tahun_mulai',
+        'tahun_akhir',
     ];
 
     public function semesters(): HasMany

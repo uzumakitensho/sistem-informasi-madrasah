@@ -3,7 +3,7 @@
 namespace Modules\TahunAjaran\Http\Controllers;
 
 use App\Models\Semester;
-use App\Models\SchoolYear;
+use App\Models\TahunAjaran;
 use App\Http\Controllers\Controller;
 use Modules\TahunAjaran\Http\Requests\StoreTahunAjaranRequest;
 use Modules\TahunAjaran\Http\Requests\UpdateTahunAjaranRequest;
@@ -12,16 +12,16 @@ use DB;
 
 class TahunAjaranController extends Controller
 {
-    private $viewPath = 'school-years';
+    private $viewPath = 'tahun-ajaran';
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $schoolYears = SchoolYear::orderBy('year_start', 'ASC')->get();
+        $tahunAjaranList = TahunAjaran::orderBy('tahun_mulai', 'ASC')->get();
         sidebarMarking($this->viewPath, 'index');
         return view('tahunajaran::index', [
-            'schoolYears' => $schoolYears,
+            'tahunAjaranList' => $tahunAjaranList,
         ]);
     }
 
@@ -39,29 +39,29 @@ class TahunAjaranController extends Controller
     public function store(StoreTahunAjaranRequest $request) 
     {
         try {
-            $yearStart = intval($request->tahun_mulai);
+            $tahunMulai = intval($request->tahun_mulai);
 
-            $checkExist = SchoolYear::where('year_start', $yearStart)->count();
+            $checkExist = TahunAjaran::where('tahun_mulai', $tahunMulai)->count();
             if($checkExist) {
                 throw new \Exception('Gagal membuat data! Pilih tahun lain!');
             }
 
             DB::beginTransaction();
 
-            $newSchoolYear = SchoolYear::create([
-                'year_start' => $yearStart,
-                'year_end' => $yearStart+1,
+            $newThAjaran = TahunAjaran::create([
+                'tahun_mulai' => $tahunMulai,
+                'tahun_akhir' => $tahunMulai+1,
             ]);
-            if(!$newSchoolYear) {
+            if(!$newThAjaran) {
                 throw new \Exception('Gagal membuat data!');
             }
-            $idSchoolYear = $newSchoolYear->id;
+            $idThAjaran = $newThAjaran->id;
 
             $semesters = ['Semester Gasal', 'Semester Genap'];
             foreach ($semesters as $semester) {
                 $newSemester = Semester::create([
-                    'name' => $semester,
-                    'school_year_id' => $idSchoolYear,
+                    'nama' => $semester,
+                    'tahun_ajaran_id' => $idThAjaran,
                 ]);
             }
 
@@ -77,7 +77,7 @@ class TahunAjaranController extends Controller
     /**
      * Show the specified resource.
      */
-    public function show(SchoolYear $schoolYear)
+    public function show(TahunAjaran $tahunAjaran)
     {
         return redirect()->route('tahun-ajaran.index');
     }
@@ -85,7 +85,7 @@ class TahunAjaranController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(SchoolYear $schoolYear)
+    public function edit(TahunAjaran $tahunAjaran)
     {
         return redirect()->route('tahun-ajaran.index');
     }
@@ -93,23 +93,23 @@ class TahunAjaranController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTahunAjaranRequest $request, SchoolYear $schoolYear) 
+    public function update(UpdateTahunAjaranRequest $request, TahunAjaran $tahunAjaran) 
     {
         try {
-            $yearStart = intval($request->year_start);
+            $tahunMulai = intval($request->tahun_mulai);
 
-            $checkExist = SchoolYear::where('year_start', $yearStart)->where('id', '<>', $schoolYear->id)->count();
+            $checkExist = TahunAjaran::where('tahun_mulai', $tahunMulai)->where('id', '<>', $tahunAjaran->id)->count();
             if($checkExist) {
                 throw new \Exception('Gagal update data! Pilih tahun lain!');
             }
 
-            if($yearStart != $schoolYear->year_start) {
-                $schoolYear->year_start = $yearStart;
-                $schoolYear->year_end = $yearStart+1;
-                $schoolYear->save();
+            if($tahunMulai != $tahunAjaran->tahun_mulai) {
+                $tahunAjaran->tahun_mulai = $tahunMulai;
+                $tahunAjaran->tahun_akhir = $tahunMulai+1;
+                $tahunAjaran->save();
             }
 
-            return redirect()->route('tahun-ajaran.edit', ['school_year' => $schoolYear])->with('success', 'School Year updated!');
+            return redirect()->route('tahun-ajaran.edit', ['th_ajaran' => $tahunAjaran])->with('success', 'Tahun ajaran berhasil diupdate!');
         }  catch(\Exception $err) {
             return redirect()->back()->withErrors([$err->getMessage()]);
         }
@@ -118,13 +118,13 @@ class TahunAjaranController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SchoolYear $schoolYear) 
+    public function destroy(TahunAjaran $tahunAjaran) 
     {
         try {
-            $schoolYear->semesters()->delete();
-            $schoolYear->delete();
+            $tahunAjaran->semesters()->delete();
+            $tahunAjaran->delete();
 
-            return redirect()->route('tahun-ajaran.index')->with('success', 'School Year deleted!');
+            return redirect()->route('tahun-ajaran.index')->with('success', 'Tahun ajaran berhasil dihapus!');
         } catch(\Exception $err) {
             return redirect()->back()->withErrors([$err->getMessage()]);
         }

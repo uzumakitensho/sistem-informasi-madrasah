@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('teachers', function (Blueprint $table) {
+        Schema::create('guru', function (Blueprint $table) {
             $table->id();
-            $table->string('teacher_name');
-            $table->enum('gender', ['L', 'P'])->default('L');
+            $table->string('nama_guru');
+            $table->enum('kelamin', ['L', 'P'])->default('L');
             $table->string('nip')->nullable();
             $table->timestamps();
         });
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('teachers');
+        Schema::dropIfExists('guru');
     }
 };

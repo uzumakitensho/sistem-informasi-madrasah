@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('semesters', function (Blueprint $table) {
+        Schema::create('semester', function (Blueprint $table) {
             $table->id();
-            $table->string('name', length: 100);
-            $table->unsignedBigInteger('school_year_id');
+            $table->string('nama', length: 100);
+            $table->unsignedBigInteger('tahun_ajaran_id');
             $table->boolean('is_active')->default(false);
             $table->timestamps();
 
-            $table->foreign('school_year_id')->references('id')->on('school_years');
+            $table->foreign('tahun_ajaran_id')->references('id')->on('tahun_ajaran');
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('semesters');
+        Schema::dropIfExists('semester');
     }
 };

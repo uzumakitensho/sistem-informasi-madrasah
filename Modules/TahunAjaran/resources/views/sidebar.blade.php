@@ -1,5 +1,5 @@
 @php
-$mainMenu = session('mainMenu') == 'school-years' ? true : false;
+$mainMenu = session('mainMenu') == 'tahun-ajaran' ? true : false;
 @endphp
 
 <li class="nav-item {{ $mainMenu ? 'active' : '' }}">
