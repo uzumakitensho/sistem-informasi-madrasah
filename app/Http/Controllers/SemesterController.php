@@ -69,7 +69,7 @@ class SemesterController extends Controller
         try {
             $semester->activate();
 
-            return redirect()->route('school-years.index')->with('success', 'Semester activated!');
+            return redirect()->route('tahun-ajaran.index')->with('success', 'Semester berhasil diaktifkan!');
         } catch(\Exception $err) {
             return redirect()->back()->withErrors([$err->getMessage()]);
         }
