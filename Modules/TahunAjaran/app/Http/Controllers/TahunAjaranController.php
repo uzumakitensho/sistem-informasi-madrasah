@@ -2,17 +2,25 @@
 
 namespace Modules\TahunAjaran\Http\Controllers;
 
+use App\Models\Semester;
+use App\Models\SchoolYear;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use DB;
 
 class TahunAjaranController extends Controller
 {
+    private $viewPath = 'school-years';
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('tahunajaran::index');
+        $schoolYears = SchoolYear::orderBy('year_start', 'ASC')->get();
+        sidebarMarking($this->viewPath, 'index');
+        return view('tahunajaran::index', [
+            'schoolYears' => $schoolYears,
+        ]);
     }
 
     /**

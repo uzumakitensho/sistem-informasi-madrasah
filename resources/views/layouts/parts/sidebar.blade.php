@@ -27,7 +27,7 @@
     </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
-    @include('school-years.sidebar')
+    @include('tahunajaran::sidebar')
 
     <!-- Nav Item - Utilities Collapse Menu -->
     <li class="nav-item">

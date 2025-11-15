@@ -3,6 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use Modules\TahunAjaran\Http\Controllers\TahunAjaranController;
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::resource('tahunajarans', TahunAjaranController::class)->names('tahunajaran');
+Route::prefix('admin')->group(function () {
+    Route::resource('tahun-ajaran', TahunAjaranController::class)->names('tahun-ajaran');
 });
