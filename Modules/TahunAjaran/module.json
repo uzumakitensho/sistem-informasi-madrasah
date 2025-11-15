@@ -1,0 +1,11 @@
+{
+    "name": "TahunAjaran",
+    "alias": "tahunajaran",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\TahunAjaran\\Providers\\TahunAjaranServiceProvider"
+    ],
+    "files": []
+}
