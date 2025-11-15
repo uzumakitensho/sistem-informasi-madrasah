@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama_guru');
             $table->enum('kelamin', ['L', 'P'])->default('L');
             $table->string('nip')->nullable();
+            $table->boolean('is_active')->default(false);
             $table->timestamps();
         });
     }

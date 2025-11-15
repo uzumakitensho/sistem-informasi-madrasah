@@ -13,5 +13,6 @@ class Guru extends Model
         'nama_guru',
         'kelamin',
         'nip',
+        'is_active',
     ];
 }
