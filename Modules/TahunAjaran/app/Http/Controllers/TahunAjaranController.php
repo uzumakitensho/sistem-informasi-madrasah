@@ -41,6 +41,11 @@ class TahunAjaranController extends Controller
         try {
             $yearStart = intval($request->tahun_mulai);
 
+            $checkExist = SchoolYear::where('year_start', $yearStart)->count();
+            if($checkExist) {
+                throw new \Exception('Gagal membuat data! Pilih tahun lain!');
+            }
+
             DB::beginTransaction();
 
             $newSchoolYear = SchoolYear::create([
@@ -74,7 +79,7 @@ class TahunAjaranController extends Controller
      */
     public function show(SchoolYear $schoolYear)
     {
-        //
+        return redirect()->route('tahun-ajaran.index');
     }
 
     /**
@@ -90,14 +95,24 @@ class TahunAjaranController extends Controller
      */
     public function update(UpdateTahunAjaranRequest $request, SchoolYear $schoolYear) 
     {
-        $yearStart = intval($request->year_start);
-        if($yearStart != $schoolYear->year_start) {
-            $schoolYear->year_start = $yearStart;
-            $schoolYear->year_end = $yearStart+1;
-            $schoolYear->save();
-        }
+        try {
+            $yearStart = intval($request->year_start);
 
-        return redirect()->route('tahun-ajaran.edit', ['school_year' => $schoolYear])->with('success', 'School Year updated!');
+            $checkExist = SchoolYear::where('year_start', $yearStart)->where('id', '<>', $schoolYear->id)->count();
+            if($checkExist) {
+                throw new \Exception('Gagal update data! Pilih tahun lain!');
+            }
+
+            if($yearStart != $schoolYear->year_start) {
+                $schoolYear->year_start = $yearStart;
+                $schoolYear->year_end = $yearStart+1;
+                $schoolYear->save();
+            }
+
+            return redirect()->route('tahun-ajaran.edit', ['school_year' => $schoolYear])->with('success', 'School Year updated!');
+        }  catch(\Exception $err) {
+            return redirect()->back()->withErrors([$err->getMessage()]);
+        }
     }
 
     /**

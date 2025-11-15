@@ -12,13 +12,7 @@ class UpdateTahunAjaranRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tahun_mulai' => [
-                'required',
-                'integer',
-                'min:2000',
-                'max:5000',
-                Rule::unique('school_years', 'year_start')->ignore($this->route('school_year')->id),
-            ],
+            'tahun_mulai' => 'required|integer|min:1990|max:5000',
         ];
     }
 
