@@ -26,13 +26,17 @@ class GuruController extends Controller
      */
     public function create()
     {
+        sidebarMarking($this->viewPath, 'create');
         return view('guru::create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {}
+    public function store(Request $request) 
+    {
+        dd($request->all());
+    }
 
     /**
      * Show the specified resource.
