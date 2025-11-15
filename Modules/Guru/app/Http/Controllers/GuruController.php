@@ -2,6 +2,7 @@
 
 namespace Modules\Guru\Http\Controllers;
 
+use App\Models\Guru;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
