@@ -1,6 +1,6 @@
 @extends('layouts.app')
  
-@section('title', 'School Years')
+@section('title', 'Tahun Ajaran')
  
 @section('content')
     <!-- Content Row -->
