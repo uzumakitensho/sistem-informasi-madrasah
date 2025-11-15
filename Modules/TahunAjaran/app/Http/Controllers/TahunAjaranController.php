@@ -5,8 +5,8 @@ namespace Modules\TahunAjaran\Http\Controllers;
 use App\Models\Semester;
 use App\Models\SchoolYear;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreTahunAjaranRequest;
-use App\Http\Requests\UpdateTahunAjaranRequest;
+use Modules\TahunAjaran\Http\Requests\StoreTahunAjaranRequest;
+use Modules\TahunAjaran\Http\Requests\UpdateTahunAjaranRequest;
 use Illuminate\Http\Request;
 use DB;
 
@@ -39,7 +39,7 @@ class TahunAjaranController extends Controller
     public function store(StoreTahunAjaranRequest $request) 
     {
         try {
-            $yearStart = intval($request->year_start);
+            $yearStart = intval($request->tahun_mulai);
 
             DB::beginTransaction();
 
@@ -48,7 +48,7 @@ class TahunAjaranController extends Controller
                 'year_end' => $yearStart+1,
             ]);
             if(!$newSchoolYear) {
-                throw new \Exception('Failed to create data!');
+                throw new \Exception('Gagal membuat data!');
             }
             $idSchoolYear = $newSchoolYear->id;
 
@@ -62,7 +62,7 @@ class TahunAjaranController extends Controller
 
             DB::commit();
 
-            return redirect()->route('tahun-ajaran.create')->with('success', 'School Year created!');
+            return redirect()->route('tahun-ajaran.create')->with('success', 'Berhasil membuat data!');
         } catch(\Exception $err) {
             DB::rollBack();
             return redirect()->back()->withErrors([$err->getMessage()]);
