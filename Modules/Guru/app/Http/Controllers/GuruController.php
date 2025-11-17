@@ -5,6 +5,7 @@ namespace Modules\Guru\Http\Controllers;
 use App\Models\Guru;
 use App\Http\Controllers\Controller;
 use Modules\Guru\Http\Requests\StoreGuruRequest;
+use Modules\Guru\Http\Requests\UpdateGuruRequest;
 use Illuminate\Http\Request;
 
 class GuruController extends Controller
@@ -91,7 +92,7 @@ class GuruController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $guru) 
+    public function update(UpdateGuruRequest $request, $guru) 
     {
         $namaGuru = trim($request->nama_guru);
         $kelamin = $request->kelamin;
