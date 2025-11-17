@@ -4,6 +4,7 @@ namespace Modules\Guru\Http\Controllers;
 
 use App\Models\Guru;
 use App\Http\Controllers\Controller;
+use Modules\Guru\Http\Requests\StoreGuruRequest;
 use Illuminate\Http\Request;
 
 class GuruController extends Controller
@@ -33,9 +34,25 @@ class GuruController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) 
+    public function store(StoreGuruRequest $request) 
     {
-        dd($request->all());
+        // dd($request->all());
+        $namaGuru = trim($request->nama_guru);
+        $kelamin = $request->kelamin;
+        $nip = $request->nip ?? null;
+        $isActive = $request->is_active ? true : false;
+
+        $guruBaru = Guru::create([
+            'nama_guru' => $namaGuru,
+            'kelamin' => $kelamin,
+            'nip' => $nip,
+            'is_active' => $isActive,
+        ]);
+        if(!$guruBaru) {
+            return redirect()->back()->withErrors(['Gagal membuat data guru baru!'])-> withInput();
+        }
+
+        return redirect()->route('guru.index')->with('success', 'Data guru berhasil ditambahkan!');
     }
 
     /**

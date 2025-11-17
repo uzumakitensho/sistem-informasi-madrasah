@@ -20,6 +20,7 @@
                                 <th>No</th>
                                 <th>Nama</th>
                                 <th>NIP</th>
+                                <th>Kelamin</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -36,6 +37,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $detailGuru->nip ?? '-' }}</td>
+                                <td>{{ $detailGuru->kelamin == 'L' ? 'Laki-Laki' : 'Perempuan' }}</td>
                                 <td>
                                     <div class="dropdown mb-4">
                                         <button class="btn btn-primary dropdown-toggle" type="button"

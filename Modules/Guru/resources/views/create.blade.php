@@ -25,15 +25,30 @@
                             <input type="text" class="form-control" name="nip" id="nipGuruInput">
                         </div>
                         <div class="col-lg-5 mb-3">
+                            <label for="nipGuruInput" class="form-label">Jenis Kelamin <span class="required">*</span></label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="kelamin" value="L" checked>
+                                <label class="form-check-label">
+                                    Laki-Laki
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="kelamin" value="P">
+                                <label class="form-check-label">
+                                    Perempuan
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 mb-3">
                             <label for="nipGuruInput" class="form-label">Masih Aktif <span class="required">*</span></label>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="is_active" value="Y" checked>
+                                <input class="form-check-input" type="radio" name="is_active" value="1" checked>
                                 <label class="form-check-label">
                                     Ya
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="is_active" value="T">
+                                <input class="form-check-input" type="radio" name="is_active" value="0">
                                 <label class="form-check-label">
                                     Tidak
                                 </label>
