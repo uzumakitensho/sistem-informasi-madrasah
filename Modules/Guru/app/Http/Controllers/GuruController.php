@@ -42,6 +42,15 @@ class GuruController extends Controller
         $nip = $request->nip ?? null;
         $isActive = $request->is_active ? true : false;
 
+        $checkExist = Guru::where('nama_guru', $namaGuru);
+        if($nip) {
+            $checkExist = $checkExist->orWhere('nip', $nip);
+        }
+        $checkExist = $checkExist->first();
+        if($checkExist) {
+            return redirect()->back()->withErrors(['Gagal membuat data guru baru! Nama dan/atau NIP sudah digunakan'])-> withInput();
+        }
+
         $guruBaru = Guru::create([
             'nama_guru' => $namaGuru,
             'kelamin' => $kelamin,
@@ -60,21 +69,60 @@ class GuruController extends Controller
      */
     public function show($id)
     {
-        return view('guru::show');
+        return redirect()->route('guru.index');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(Request $request, $guru)
     {
-        return view('guru::edit');
+        $detailGuru = Guru::find($guru);
+        if(!$detailGuru) {
+            return redirect()->route('guru.index')->withErrors(['Data guru tidak ditemukan!']);
+        }
+
+        sidebarMarking($this->viewPath, 'index');
+        return view('guru::edit', [
+            'detailGuru' => $detailGuru,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id) {}
+    public function update(Request $request, $guru) 
+    {
+        $namaGuru = trim($request->nama_guru);
+        $kelamin = $request->kelamin;
+        $nip = $request->nip ?? null;
+        $isActive = $request->is_active ? true : false;
+
+        $detailGuru = Guru::find($guru);
+        if(!$detailGuru) {
+            return redirect()->route('guru.index')->withErrors(['Data guru tidak ditemukan!']);
+        }
+
+        $checkExist = Guru::where('id', '<>', $guru)->where(function($query) use($namaGuru, $nip) {
+            $query->where('nama_guru', $namaGuru);
+            if($nip) {
+                $query->orWhere('nip', $nip);
+            }
+        })->first();
+        if($checkExist) {
+            return redirect()->back()->withErrors(['Gagal merubah data guru! Nama dan/atau NIP sudah digunakan'])-> withInput();
+        }
+
+        $detailGuru->nama_guru = $namaGuru;
+        $detailGuru->kelamin = $kelamin;
+        $detailGuru->nip = $nip;
+        $detailGuru->is_active = $isActive;
+        if(!$detailGuru->save()) {
+            return redirect()->back()->withErrors(['Gagal merubah data guru!'])-> withInput();
+        }
+
+        return redirect()->route('guru.index')->with('success', 'Data guru berhasil dirubah!');
+    }
 
     /**
      * Remove the specified resource from storage.
