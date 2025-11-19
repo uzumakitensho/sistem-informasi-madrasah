@@ -41,6 +41,12 @@ class KelasController extends Controller
         $namaKelas = strtoupper(trim($request->nama_kelas));
         $isActive = $request->is_active ? true : false;
 
+        $kelasParts = preg_split('/(?<=\D)(?=\d)|(?<=\d)(?=\D)/', $namaKelas, -1, PREG_SPLIT_NO_EMPTY);
+        if(!is_array($kelasParts) || count($kelasParts) != 2 || !is_numeric($kelasParts[0])) {
+            return redirect()->back()->withErrors(['Gagal membuat data kelas baru! Nama kelas invalid'])-> withInput();
+        }
+        $jenjang = $kelasParts[0];
+
         $checkExist = Kelas::where('nama_kelas', $namaKelas)->first();
         if($checkExist) {
             return redirect()->back()->withErrors(['Gagal membuat data kelas baru! Nama kelas sudah digunakan'])-> withInput();
@@ -48,6 +54,7 @@ class KelasController extends Controller
 
         $kelasBaru = Kelas::create([
             'nama_kelas' => $namaKelas,
+            'jenjang' => $jenjang,
             'is_active' => $isActive,
         ]);
         if(!$kelasBaru) {
@@ -62,21 +69,58 @@ class KelasController extends Controller
      */
     public function show($id)
     {
-        return view('kelas::show');
+        return redirect()->route('kelas.index');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit($kelas)
     {
-        return view('kelas::edit');
+        $detailKelas = Kelas::find($kelas);
+        if(!$detailKelas) {
+            return redirect()->route('kelas.index')->withErrors(['Data kelas tidak ditemukan!']);
+        }
+
+        sidebarMarking($this->viewPath, 'index');
+        return view('kelas::edit', [
+            'detailKelas' => $detailKelas,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateKelasRequest $request, $id) {}
+    public function update(UpdateKelasRequest $request, $kelas) 
+    {
+        $namaKelas = trim($request->nama_kelas);
+        $isActive = $request->is_active ? true : false;
+
+        $detailKelas = Kelas::find($kelas);
+        if(!$detailKelas) {
+            return redirect()->route('kelas.index')->withErrors(['Data kelas tidak ditemukan!']);
+        }
+
+        $kelasParts = preg_split('/(?<=\D)(?=\d)|(?<=\d)(?=\D)/', $namaKelas, -1, PREG_SPLIT_NO_EMPTY);
+        if(!is_array($kelasParts) || count($kelasParts) != 2 || !is_numeric($kelasParts[0])) {
+            return redirect()->back()->withErrors(['Gagal merubah data kelas! Nama kelas invalid'])-> withInput();
+        }
+        $jenjang = $kelasParts[0];
+
+        $checkExist = Kelas::where('id', '<>', $kelas)->where('nama_kelas', $namaKelas)->first();
+        if($checkExist) {
+            return redirect()->back()->withErrors(['Gagal merubah data kelas! Nama kelas sudah digunakan'])-> withInput();
+        }
+
+        $detailKelas->nama_kelas = $namaKelas;
+        $detailKelas->jenjang = $jenjang;
+        $detailKelas->is_active = $isActive;
+        if(!$detailKelas->save()) {
+            return redirect()->back()->withErrors(['Gagal merubah data kelas!'])-> withInput();
+        }
+
+        return redirect()->route('kelas.index')->with('success', 'Data kelas berhasil dirubah!');
+    }
 
     /**
      * Remove the specified resource from storage.
