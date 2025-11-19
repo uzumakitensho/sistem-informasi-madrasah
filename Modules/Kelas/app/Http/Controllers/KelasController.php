@@ -125,5 +125,14 @@ class KelasController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id) {}
+    public function destroy(Kelas $kelas) 
+    {
+        try {
+            $kelas->delete();
+
+            return redirect()->route('kelas.index')->with('success', 'Data kelas berhasil dihapus!');
+        } catch(\Exception $err) {
+            return redirect()->back()->withErrors([$err->getMessage()]);
+        }
+    }
 }
