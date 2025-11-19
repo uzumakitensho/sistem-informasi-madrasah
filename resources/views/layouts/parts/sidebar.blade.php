@@ -29,6 +29,7 @@
     <!-- Nav Item - Pages Collapse Menu -->
     @include('tahunajaran::sidebar')
     @include('guru::sidebar')
+    @include('kelas::sidebar')
 
     <!-- Nav Item - Utilities Collapse Menu -->
     <li class="nav-item">

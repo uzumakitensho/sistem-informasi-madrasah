@@ -2,17 +2,23 @@
 
 namespace Modules\Kelas\Http\Controllers;
 
+use App\Models\Kelas;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class KelasController extends Controller
 {
+    private $viewPath = 'kelas';
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('kelas::index');
+        $kelasList = Kelas::orderBy('nama_kelas', 'ASC')->get();
+        sidebarMarking($this->viewPath, 'index');
+        return view('kelas::index', [
+            'kelasList' => $kelasList,
+        ]);
     }
 
     /**
