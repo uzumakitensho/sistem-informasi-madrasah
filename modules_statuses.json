@@ -1,5 +1,6 @@
 {
     "TahunAjaran": true,
     "Guru": true,
-    "Kelas": true
+    "Kelas": true,
+    "Walas": true
 }

@@ -1,0 +1,11 @@
+{
+    "name": "Walas",
+    "alias": "walas",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Walas\\Providers\\WalasServiceProvider"
+    ],
+    "files": []
+}
